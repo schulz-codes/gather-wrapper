@@ -11,7 +11,8 @@
     "dist": "pnpm build:native && pnpm build && electron-builder --mac --universal",
     "typecheck": "tsc --noEmit",
     "changeset": "changeset",
-    "version": "changeset version"
+    "version": "changeset version",
+    "release": "echo \"Release v$(node -p \"require('./package.json').version\")\""
   },
   "build": {
     "appId": "codes.schulz.gather-wrapper",

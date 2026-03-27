@@ -1,4 +1,4 @@
-name: CI
+name: CI / Release
 
 on:
   push:
@@ -8,17 +8,21 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
-  version:
+  ci:
+    name: Version & Release
     runs-on: ubuntu-latest
     outputs:
       published: ${{ steps.changesets.outputs.published }}
       version: ${{ steps.version.outputs.version }}
-    permissions:
-      contents: write
-      pull-requests: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: pnpm/action-setup@v4
         with:
@@ -31,29 +35,32 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - name: Create Release PR or publish
+      - name: Create Release PR or Publish
         id: changesets
         uses: changesets/action@v1
         with:
           title: "Version Packages"
           commit: "chore: version packages"
-          publish: echo "noop"
+          publish: pnpm run release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Get version
         id: version
-        if: steps.changesets.outputs.hasChangesets == 'false'
+        if: steps.changesets.outputs.published == 'true'
         run: echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
 
   build-and-release:
-    needs: version
-    if: needs.version.outputs.published == 'true'
+    name: Build & Release
+    needs: ci
+    if: needs.ci.outputs.published == 'true'
     runs-on: macos-14
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
 
       - uses: pnpm/action-setup@v4
         with:
@@ -84,8 +91,8 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ needs.version.outputs.version }}
-          name: v${{ needs.version.outputs.version }}
+          tag_name: v${{ needs.ci.outputs.version }}
+          name: v${{ needs.ci.outputs.version }}
           generate_release_notes: true
           files: |
             release/*.dmg
@@ -94,7 +101,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   update-homebrew:
-    needs: [version, build-and-release]
+    name: Update Homebrew Cask
+    needs: [ci, build-and-release]
     runs-on: ubuntu-latest
     steps:
       - name: Update Homebrew Cask
@@ -105,6 +113,6 @@ jobs:
           event-type: update-cask
           client-payload: |
             {
-              "version": "${{ needs.version.outputs.version }}",
-              "zip_url": "https://github.com/schulz-codes/gather-wrapper/releases/download/v${{ needs.version.outputs.version }}/Gather-${{ needs.version.outputs.version }}-universal-mac.zip"
+              "version": "${{ needs.ci.outputs.version }}",
+              "zip_url": "https://github.com/schulz-codes/gather-wrapper/releases/download/v${{ needs.ci.outputs.version }}/Gather-${{ needs.ci.outputs.version }}-universal-mac.zip"
             }
