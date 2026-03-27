@@ -96,11 +96,16 @@ jobs:
         run: pnpm build
 
       - name: Package app
-        run: |
-          pnpm exec electron-builder --mac --universal --publish never
-          codesign --force --deep --sign - --entitlements entitlements.mac.plist release/mac-universal/Gather.app
+        run: pnpm exec electron-builder --mac --universal --publish never
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: "false"
+
+      - name: Sign and repackage
+        run: |
+          codesign --force --deep --sign - --entitlements entitlements.mac.plist release/mac-universal/Gather.app
+          VERSION=${{ needs.check-release.outputs.version }}
+          rm -f release/Gather-${VERSION}-universal-mac.zip
+          cd release/mac-universal && zip -ry ../Gather-${VERSION}-universal-mac.zip Gather.app
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
