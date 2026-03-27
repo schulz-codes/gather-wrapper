@@ -1,5 +1,11 @@
 # gather-wrapper
 
+## 0.2.2
+
+### Patch Changes
+
+- [`82c1322`](https://github.com/schulz-codes/gather-wrapper/commit/82c1322729fcf1a6d074eeb0a3c51267746fd252) Thanks [@takethefake](https://github.com/takethefake)! - Fix CI release pipeline: unified workflow with correct changesets publish trigger and swiftc cross-compilation flags.
+
 ## 0.2.1
 
 ### Patch Changes
