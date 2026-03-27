@@ -96,7 +96,9 @@ jobs:
         run: pnpm build
 
       - name: Package app
-        run: pnpm exec electron-builder --mac --universal --publish never
+        run: |
+          pnpm exec electron-builder --mac --universal --publish never
+          codesign --force --deep --sign - --entitlements entitlements.mac.plist release/mac-universal/Gather.app
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: "false"
 

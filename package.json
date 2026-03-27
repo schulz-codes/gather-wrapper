@@ -8,7 +8,7 @@
     "dev": "tsc --watch & sleep 2 && electron .",
     "build": "tsc",
     "build:native": "swiftc -O -o native/camera-check native/camera-check.swift",
-    "dist": "pnpm build:native && pnpm build && electron-builder --mac --universal",
+    "dist": "pnpm build:native && pnpm build && electron-builder --mac --universal && codesign --force --deep --sign - --entitlements entitlements.mac.plist release/mac-universal/Gather.app",
     "typecheck": "tsc --noEmit",
     "changeset": "changeset",
     "version": "changeset version",
