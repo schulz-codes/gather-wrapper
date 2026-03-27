@@ -1,0 +1,8 @@
+node_modules/
+dist/
+release/
+*.dmg
+*.zip
+.idea/
+.DS_Store
+native/camera-check
