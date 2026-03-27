@@ -1,5 +1,11 @@
 # gather-wrapper
 
+## 0.2.1
+
+### Patch Changes
+
+- [`ebcbd22`](https://github.com/schulz-codes/gather-wrapper/commit/ebcbd226b7b5d868c3a255f81d5657cbe7c45af6) Thanks [@takethefake](https://github.com/takethefake)! - Fix CI workflow: correct swiftc flags for universal binary cross-compilation and merge version + release into single workflow.
+
 ## 0.2.0
 
 ### Minor Changes
