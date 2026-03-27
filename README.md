@@ -11,22 +11,35 @@ auf **Busy** setzt wenn die Kamera von einer externen App (Teams etc.) genutzt w
 | Kamera an, Gather-Gespräch läuft | _(kein Eingriff)_ |
 | Kamera an, externe App (Teams etc.) | Busy |
 
-## Setup
+## Installation (macOS)
 
 ```bash
-npm install
-npm run build
-npm run dev   # Entwicklung
+brew tap schulz-codes/tap
+brew install gather-wrapper
+```
+
+Da die App nicht signiert ist, muss sie beim ersten Start manuell freigegeben werden:
+
+1. App aus `/Applications` starten — macOS zeigt eine Warnung und bricht ab
+2. **Systemeinstellungen → Datenschutz & Sicherheit** öffnen
+3. Unter „Sicherheit" erscheint ein Hinweis zur blockierten App — auf **Trotzdem öffnen** klicken
+4. Im nächsten Dialog nochmals **Öffnen** bestätigen
+
+Danach startet die App ohne weitere Warnungen.
+
+## Entwicklung
+
+```bash
+pnpm install
+pnpm build
+pnpm dev
 ```
 
 ## Distribution
 
 ```bash
-npm run dist  # Erstellt gather-wrapper.dmg
+pnpm dist  # Erstellt .dmg und .zip
 ```
-
-DMG-Datei per Slack/Drive ans Team verteilen.
-Beim ersten Start: Rechtsklick → Öffnen (Gatekeeper-Warnung umgehen).
 
 ## TODO: Gather Status-Selector
 
