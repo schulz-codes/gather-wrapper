@@ -1,5 +1,11 @@
 # gather-wrapper
 
+## 0.2.5
+
+### Patch Changes
+
+- [`84c8e8d`](https://github.com/schulz-codes/gather-wrapper/commit/84c8e8d8389da680cca6e6a02e5c585e0cb31ee0) Thanks [@takethefake](https://github.com/takethefake)! - fix: unpack native camera-check binary from asar archive so it can be executed in packaged app
+
 ## 0.2.4
 
 ### Patch Changes
