@@ -1,5 +1,11 @@
 # gather-wrapper
 
+## 0.2.8
+
+### Patch Changes
+
+- [`eb48031`](https://github.com/schulz-codes/gather-wrapper/commit/eb48031214723ec2e9a65f6975876fb85702be19) Thanks [@takethefake](https://github.com/takethefake)! - fix: repackage ZIP after ad-hoc signing so distributed app contains entitlements
+
 ## 0.2.7
 
 ### Patch Changes
