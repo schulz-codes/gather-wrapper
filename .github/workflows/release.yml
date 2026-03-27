@@ -52,7 +52,11 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       - name: Build native binary (universal)
-        run: swiftc -O -arch arm64 -arch x86_64 -o native/camera-check native/camera-check.swift
+        run: |
+          swiftc -O --target arm64-apple-macosx13.0 -o native/camera-check-arm64 native/camera-check.swift
+          swiftc -O --target x86_64-apple-macosx13.0 -o native/camera-check-x64 native/camera-check.swift
+          lipo -create native/camera-check-arm64 native/camera-check-x64 -output native/camera-check
+          rm native/camera-check-arm64 native/camera-check-x64
 
       - name: Build TypeScript
         run: pnpm build

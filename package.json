@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "tsc --watch & sleep 2 && electron .",
     "build": "tsc",
-    "build:native": "swiftc -O -arch arm64 -arch x86_64 -o native/camera-check native/camera-check.swift",
+    "build:native": "swiftc -O -o native/camera-check native/camera-check.swift",
     "dist": "pnpm build:native && pnpm build && electron-builder --mac --universal",
     "typecheck": "tsc --noEmit",
     "changeset": "changeset",
