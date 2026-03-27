@@ -1,6 +1,6 @@
 {
   "name": "gather-wrapper",
-  "version": "0.2.8",
+  "version": "0.3.0",
   "description": "Gather desktop wrapper with Teams camera auto-status sync",
   "type": "module",
   "main": "dist/main.js",
@@ -51,7 +51,9 @@
     }
   },
   "pnpm": {
-    "onlyBuiltDependencies": ["electron"]
+    "onlyBuiltDependencies": [
+      "electron"
+    ]
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.5.0",
