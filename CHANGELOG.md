@@ -1,5 +1,13 @@
 # gather-wrapper
 
+## 0.2.6
+
+### Patch Changes
+
+- [`84ed26e`](https://github.com/schulz-codes/gather-wrapper/commit/84ed26e102ad10259968e9e928e4af7eb2f0cd5e) Thanks [@takethefake](https://github.com/takethefake)! - dev: add event debug logging, main-process console forwarding to DevTools, and fix permission loop
+
+- [`47cd17e`](https://github.com/schulz-codes/gather-wrapper/commit/47cd17e84bd9e83ea120c941a3bfcb4ce2c21879) Thanks [@takethefake](https://github.com/takethefake)! - docs: add Homebrew installation and macOS Gatekeeper instructions to README
+
 ## 0.2.5
 
 ### Patch Changes
