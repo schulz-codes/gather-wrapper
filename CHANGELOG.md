@@ -1,5 +1,11 @@
 # gather-wrapper
 
+## 0.2.3
+
+### Patch Changes
+
+- [`8f65fb0`](https://github.com/schulz-codes/gather-wrapper/commit/8f65fb056f5efcc64346b7b6fb8f5e4a1d6b626d) Thanks [@takethefake](https://github.com/takethefake)! - Fix CI release pipeline to use version-diff check instead of changesets published output.
+
 ## 0.2.2
 
 ### Patch Changes
