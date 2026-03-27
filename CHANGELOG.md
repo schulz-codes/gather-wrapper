@@ -1,5 +1,11 @@
 # gather-wrapper
 
+## 0.2.4
+
+### Patch Changes
+
+- [`42062ae`](https://github.com/schulz-codes/gather-wrapper/commit/42062aeb0dcf6794a25d8853d3decd5b13f9a69d) Thanks [@takethefake](https://github.com/takethefake)! - Fix electron-builder auto-publish in CI by adding --publish never flag.
+
 ## 0.2.3
 
 ### Patch Changes
