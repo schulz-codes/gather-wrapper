@@ -4,7 +4,12 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const CAMERA_CHECK_BIN = path.join(__dirname, '..', 'native', 'camera-check');
+const CAMERA_CHECK_BIN = path.join(
+  __dirname.replace('app.asar', 'app.asar.unpacked'),
+  '..',
+  'native',
+  'camera-check'
+);
 
 type GatherStatus = 'Active' | 'Busy';
 
