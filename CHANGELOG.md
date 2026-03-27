@@ -1,5 +1,11 @@
 # gather-wrapper
 
+## 0.2.7
+
+### Patch Changes
+
+- [`5fc2a3b`](https://github.com/schulz-codes/gather-wrapper/commit/5fc2a3bd5e044cdc5606585637abc3cced8439c6) Thanks [@takethefake](https://github.com/takethefake)! - fix: ad-hoc sign app with camera/microphone entitlements so macOS shows privacy prompts
+
 ## 0.2.6
 
 ### Patch Changes
