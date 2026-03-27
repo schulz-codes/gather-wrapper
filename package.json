@@ -1,6 +1,6 @@
 {
   "name": "gather-wrapper",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Gather desktop wrapper with Teams camera auto-status sync",
   "type": "module",
   "main": "dist/main.js",
@@ -23,8 +23,18 @@
     ],
     "mac": {
       "target": [
-        { "target": "dmg", "arch": ["universal"] },
-        { "target": "zip", "arch": ["universal"] }
+        {
+          "target": "dmg",
+          "arch": [
+            "universal"
+          ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "universal"
+          ]
+        }
       ],
       "category": "public.app-category.productivity",
       "identity": null
