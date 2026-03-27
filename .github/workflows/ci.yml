@@ -13,12 +13,9 @@ permissions:
   pull-requests: write
 
 jobs:
-  ci:
-    name: Version & Release
+  changesets:
+    name: Changesets
     runs-on: ubuntu-latest
-    outputs:
-      published: ${{ steps.changesets.outputs.published }}
-      version: ${{ steps.version.outputs.version }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -35,32 +32,47 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - name: Create Release PR or Publish
-        id: changesets
+      - name: Create Release Pull Request
         uses: changesets/action@v1
         with:
           title: "Version Packages"
           commit: "chore: version packages"
-          publish: pnpm run release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Get version
-        id: version
-        if: steps.changesets.outputs.published == 'true'
-        run: echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+  check-release:
+    name: Check Release
+    runs-on: ubuntu-latest
+    outputs:
+      should-release: ${{ steps.check.outputs.should-release }}
+      version: ${{ steps.check.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Check if version bumped
+        id: check
+        run: |
+          CURRENT=$(node -p "require('./package.json').version")
+          PREV=$(git show HEAD~1:package.json 2>/dev/null | node -p "JSON.parse(require('fs').readFileSync('/dev/stdin','utf8')).version" 2>/dev/null || echo "$CURRENT")
+          echo "current=$CURRENT prev=$PREV"
+          if [ "$CURRENT" != "$PREV" ]; then
+            echo "should-release=true" >> "$GITHUB_OUTPUT"
+            echo "version=$CURRENT" >> "$GITHUB_OUTPUT"
+          else
+            echo "should-release=false" >> "$GITHUB_OUTPUT"
+          fi
 
   build-and-release:
     name: Build & Release
-    needs: ci
-    if: needs.ci.outputs.published == 'true'
+    needs: check-release
+    if: needs.check-release.outputs.should-release == 'true'
     runs-on: macos-14
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: main
 
       - uses: pnpm/action-setup@v4
         with:
@@ -91,8 +103,8 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ needs.ci.outputs.version }}
-          name: v${{ needs.ci.outputs.version }}
+          tag_name: v${{ needs.check-release.outputs.version }}
+          name: v${{ needs.check-release.outputs.version }}
           generate_release_notes: true
           files: |
             release/*.dmg
@@ -102,7 +114,7 @@ jobs:
 
   update-homebrew:
     name: Update Homebrew Cask
-    needs: [ci, build-and-release]
+    needs: [check-release, build-and-release]
     runs-on: ubuntu-latest
     steps:
       - name: Update Homebrew Cask
@@ -113,6 +125,6 @@ jobs:
           event-type: update-cask
           client-payload: |
             {
-              "version": "${{ needs.ci.outputs.version }}",
-              "zip_url": "https://github.com/schulz-codes/gather-wrapper/releases/download/v${{ needs.ci.outputs.version }}/Gather-${{ needs.ci.outputs.version }}-universal-mac.zip"
+              "version": "${{ needs.check-release.outputs.version }}",
+              "zip_url": "https://github.com/schulz-codes/gather-wrapper/releases/download/v${{ needs.check-release.outputs.version }}/Gather-${{ needs.check-release.outputs.version }}-universal-mac.zip"
             }
