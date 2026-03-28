@@ -1,5 +1,11 @@
 # gather-wrapper
 
+## 0.3.1
+
+### Patch Changes
+
+- [`0f584dd`](https://github.com/schulz-codes/gather-wrapper/commit/0f584dd5f22c07bf67b0623b70e7845abdfc633c) Thanks [@takethefake](https://github.com/takethefake)! - Fix tray icon not appearing in production builds by unpacking assets from ASAR archive
+
 ## 0.3.0
 
 ### Minor Changes
