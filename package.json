@@ -23,7 +23,8 @@
       "assets/**/*"
     ],
     "asarUnpack": [
-      "native/camera-check"
+      "native/camera-check",
+      "assets/**/*"
     ],
     "mac": {
       "target": [
